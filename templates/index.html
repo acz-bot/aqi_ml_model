@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>AQI Forecast Dashboard</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+    <style>
+      body {
+        background: linear-gradient(135deg, #232526 0%, #414345 100%);
+        color: #fff;
+        font-family: "Segoe UI", Arial, sans-serif;
+      }
+      .container {
+        max-width: 900px;
+        margin: 48px auto;
+        padding: 40px 32px;
+        background: #222c;
+        border-radius: 22px;
+        box-shadow: 0 8px 32px #0005;
+      }
+      h1 {
+        text-align: center;
+        margin-bottom: 32px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        font-size: 2.2em;
+      }
+      form {
+        display: flex;
+        gap: 14px;
+        margin-bottom: 28px;
+        justify-content: center;
+      }
+      input[type="text"] {
+        flex: 1;
+        padding: 14px;
+        border-radius: 10px;
+        border: none;
+        font-size: 1.15em;
+        background: #333;
+        color: #fff;
+      }
+      button,
+      .dashboard-btn {
+        padding: 14px 28px;
+        border-radius: 10px;
+        border: none;
+        background: #32cd32;
+        color: #fff;
+        font-weight: bold;
+        cursor: pointer;
+        font-size: 1.12em;
+        transition: background 0.2s;
+      }
+      button:hover,
+      .dashboard-btn:hover {
+        background: #228b22;
+      }
+      .dashboard-btn {
+        display: block;
+        width: 100%;
+        margin: 0 auto 22px auto;
+        text-align: center;
+        text-decoration: none;
+      }
+      .result-card {
+        margin: 28px 0;
+        padding: 28px;
+        border-radius: 18px;
+        box-shadow: 0 2px 12px #0002;
+        background: #232526;
+        text-align: center;
+      }
+      .result-card h2 {
+        margin-bottom: 16px;
+        font-size: 1.6em;
+      }
+      .result-card p {
+        font-size: 1.18em;
+        margin: 10px 0;
+      }
+      .error-message {
+        background: #cc0033;
+        color: #fff;
+        padding: 14px;
+        border-radius: 12px;
+        margin-bottom: 18px;
+        text-align: center;
+        font-size: 1.1em;
+      }
+      .health-alerts {
+        margin-top: 32px;
+        background: #333a;
+        border-radius: 16px;
+        padding: 22px;
+      }
+      .health-alerts h3 {
+        margin-top: 0;
+        font-size: 1.18em;
+      }
+      .health-alerts ul {
+        padding-left: 22px;
+      }
+      .health-alerts li {
+        margin-bottom: 12px;
+        font-size: 1.12em;
+      }
+      .charts {
+        display: flex;
+        gap: 28px;
+        flex-wrap: wrap;
+        margin-top: 32px;
+      }
+      #aqiChart,
+      #pollutantChart {
+        flex: 1;
+        min-width: 320px;
+      }
+      @media (max-width: 900px) {
+        .container {
+          padding: 18px 4px;
+        }
+        .charts {
+          flex-direction: column;
+          gap: 18px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>🌤️ AQI Forecast for Indian Cities</h1>
+
+      {% if city %}
+      <a href="/forecast_dashboard?city={{ city }}" class="dashboard-btn"
+        >Forecast & Pollutant Dashboard</a
+      >
+      {% else %}
+      <a href="/forecast_dashboard" class="dashboard-btn"
+        >Forecast & Pollutant Dashboard</a
+      >
+      {% endif %}
+
+      <form method="POST" action="/predict">
+        <input type="text" name="city" placeholder="Enter City Name" required />
+        <button type="submit">Predict AQI</button>
+      </form>
+
+      {% if error_message %}
+      <div class="error-message">
+        <p>{{ error_message }}</p>
+      </div>
+      {% endif %} {% if preds %}
+      <div class="result-card" style="background-color: {{ color }}">
+        <h2>{{ city }}</h2>
+        <p><b>Next 24h AQI:</b> {{ preds['AQI_24hr'] }}</p>
+        <p><b>Next 48h AQI:</b> {{ preds['AQI_48hr'] }}</p>
+        <p><b>Next 72h AQI:</b> {{ preds['AQI_72hr'] }}</p>
+        <p>{{ message }}</p>
+      </div>
+
+      <div class="health-alerts">
+        <h3>Health Recommendations</h3>
+        <ul>
+          <li><b>0-50 (Good):</b> You can go outside freely.</li>
+          <li>
+            <b>51-100 (Moderate):</b> Sensitive individuals should limit outdoor
+            activity.
+          </li>
+          <li>
+            <b>101-200 (Unhealthy for Sensitive Groups):</b> Children, elderly,
+            and those with respiratory issues should reduce outdoor exertion.
+          </li>
+          <li><b>201-300 (Unhealthy):</b> Limit outdoor activities.</li>
+          <li><b>301-400 (Very Unhealthy):</b> Avoid outdoor activities.</li>
+          <li>
+            <b>401-500+ (Hazardous):</b> Stay indoors and keep windows closed.
+          </li>
+        </ul>
+      </div>
+
+      <div class="charts">
+        <div id="aqiChart"></div>
+        <div id="pollutantChart"></div>
+      </div>
+      <script>
+        Plotly.newPlot("aqiChart", {{ graphJSON | safe }});
+        Plotly.newPlot("pollutantChart", {{ pollutant_graph | safe }});
+      </script>
+      {% endif %}
+    </div>
+  </body>
+</html>

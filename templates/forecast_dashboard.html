@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Forecast & Pollutant Dashboard</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+      body { background: linear-gradient(135deg, #232526 0%, #414345 100%); color: #fff; font-family: 'Segoe UI', Arial, sans-serif; }
+      .container { max-width: 900px; margin: 48px auto; padding: 40px 32px; background: #222c; border-radius: 22px; box-shadow: 0 8px 32px #0005; }
+      h1 { text-align: center; margin-bottom: 32px; font-weight: 700; letter-spacing: 1px; font-size: 2em; }
+      .charts { display: flex; gap: 32px; flex-wrap: wrap; margin-top: 32px; }
+      #aqiForecast, #pollutantPie { flex: 1; min-width: 340px; }
+      .result-card { margin: 28px 0; padding: 28px; border-radius: 18px; box-shadow: 0 2px 12px #0002; background: {{ color }}; text-align: center; }
+      .result-card h2 { margin-bottom: 16px; font-size: 1.5em; }
+      .result-card p { font-size: 1.18em; margin: 10px 0; }
+      .back-btn { display: block; margin-bottom: 22px; padding: 14px 28px; background: #32CD32; color: #fff; border: none; border-radius: 10px; font-weight: bold; text-align: center; text-decoration: none; font-size: 1.08em; transition: background 0.2s; }
+      .back-btn:hover { background: #228B22; }
+      @media (max-width: 900px) {
+          .container { padding: 18px 4px; }
+          .charts { flex-direction: column; gap: 18px; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <a href="/" class="back-btn">← Back to AQI Forecast</a>
+      <h1>📈 Forecast & Pollutant Dashboard</h1>
+      <div class="result-card">
+        <h2>{{ city }}</h2>
+        <p><b>Next 24h AQI:</b> {{ preds['AQI_24hr'] }}</p>
+        <p><b>Next 48h AQI:</b> {{ preds['AQI_48hr'] }}</p>
+        <p><b>Next 72h AQI:</b> {{ preds['AQI_72hr'] }}</p>
+        <p>{{ message }}</p>
+      </div>
+      <div class="charts">
+        <div id="aqiForecast"></div>
+        <div id="pollutantPie"></div>
+      </div>
+      <script>
+        Plotly.newPlot("aqiForecast", {{ graphJSON | safe }});
+        Plotly.newPlot("pollutantPie", {{ pieJSON | safe }});
+      </script>
+    </div>
+  </body>
+</html>

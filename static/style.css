@@ -1,0 +1,45 @@
+body {
+  background-color: #0b132b;
+  color: #ffffff;
+  font-family: 'Segoe UI', sans-serif;
+  text-align: center;
+  padding: 40px;
+}
+
+input, button {
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: none;
+  margin: 5px;
+}
+
+button {
+  background-color: #2ec4b6;
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #1c7c74;
+}
+
+.result-card {
+  margin-top: 20px;
+  padding: 20px;
+  border-radius: 15px;
+  color: white;
+}
+
+.charts {
+  margin-top: 30px;
+}
+
+.error-message {
+    background-color: #ff4d4d;
+    color: white;
+    padding: 15px;
+    margin-top: 20px;
+    border-radius: 8px;
+    border: 1px solid #ff0000;
+}
