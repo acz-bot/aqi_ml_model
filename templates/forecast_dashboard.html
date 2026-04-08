@@ -5,16 +5,16 @@
     <title>Forecast & Pollutant Dashboard</title>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <style>
-      body { background: linear-gradient(135deg, #232526 0%, #414345 100%); color: #fff; font-family: 'Segoe UI', Arial, sans-serif; }
-      .container { max-width: 900px; margin: 48px auto; padding: 40px 32px; background: #222c; border-radius: 22px; box-shadow: 0 8px 32px #0005; }
+      body { background: linear-gradient(135deg, #232526 0%, #414345 100%); color: #fafafaff; font-family: 'Segoe UI', Arial, sans-serif; }
+      .container { max-width: 900px; margin: 48px auto; padding: 40px 32px; background: #222c; border-radius: 22px; box-shadow: 0 8px 32px rgba(0, 252, 223, 0.33); }
       h1 { text-align: center; margin-bottom: 32px; font-weight: 700; letter-spacing: 1px; font-size: 2em; }
       .charts { display: flex; gap: 32px; flex-wrap: wrap; margin-top: 32px; }
       #aqiForecast, #pollutantPie { flex: 1; min-width: 340px; }
       .result-card { margin: 28px 0; padding: 28px; border-radius: 18px; box-shadow: 0 2px 12px #0002; background: {{ color }}; text-align: center; }
       .result-card h2 { margin-bottom: 16px; font-size: 1.5em; }
       .result-card p { font-size: 1.18em; margin: 10px 0; }
-      .back-btn { display: block; margin-bottom: 22px; padding: 14px 28px; background: #32CD32; color: #fff; border: none; border-radius: 10px; font-weight: bold; text-align: center; text-decoration: none; font-size: 1.08em; transition: background 0.2s; }
-      .back-btn:hover { background: #228B22; }
+      .back-btn { display: block; margin-bottom: 22px; padding: 14px 28px; background: #32cacdff; color: #fff; border: none; border-radius: 10px; font-weight: bold; text-align: center; text-decoration: none; font-size: 1.08em; transition: background 0.2s; }
+      .back-btn:hover { background: #22518bff; }
       @media (max-width: 900px) {
           .container { padding: 18px 4px; }
           .charts { flex-direction: column; gap: 18px; }
